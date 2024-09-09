@@ -7,7 +7,8 @@ const StatusList = ({ deviceId }) => {
     const fetchStatusLogs = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/v1/devices/${deviceId}/status_logs`)
-        const data = await response.json()
+        let data = await response.json()
+        data = data.sort((a, b) => new Date(b.reported_at) - new Date(a.reported_at))
         setStatusLogs(data)
       } catch (error) {
         console.error('Error fetching status logs:', error)
@@ -15,6 +16,7 @@ const StatusList = ({ deviceId }) => {
     }
 
     fetchStatusLogs()
+    const intervalId = setInterval(fetchStatusLogs, 5000)
   }, [])
 
   return (
