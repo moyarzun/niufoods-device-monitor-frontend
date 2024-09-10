@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import StatusListWrapper from './StatusListWrapper'
+import StatusList from './StatusList'
 
 const DevicesList = ({ locationId }) => {
   const [devices, setDevices] = useState([])
@@ -27,16 +27,27 @@ const DevicesList = ({ locationId }) => {
   }, [locationId])
 
   return (
-    <div>
-      <h2>Lista de Dispositivos</h2>
-      <ul>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Lista de Dispositivos</h2>
+      <ul className="space-y-4">
         {devices.map(device => (
-          <li key={`device_${device.id}`} onClick={() => setSelectedDeviceId(device.id)}>
-            {device.name} - Estado actual: {device.current_status}
+          <li
+            key={`device_${device.id}`}
+            className="cursor-pointer p-4 rounded-lg transition-colors duration-200 bg-gray-200 hover:bg-blue-100"
+          >
+            <div className="flex justify-between items-center">
+              <span>{device.name} - Estado actual: {device.current_status}</span>
+              <button
+                onClick={() => setSelectedDeviceId(selectedDeviceId === device.id ? null : device.id)}
+                className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+              >
+                {selectedDeviceId === device.id ? 'Ocultar Historial' : 'Mostrar Historial'}
+              </button>
+            </div>
+            {selectedDeviceId === device.id && <StatusList deviceId={device.id} />}
           </li>
         ))}
       </ul>
-      {selectedDeviceId && <StatusListWrapper deviceId={selectedDeviceId} />}
     </div>
   )
 }

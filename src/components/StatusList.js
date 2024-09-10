@@ -22,14 +22,23 @@ const StatusList = ({ deviceId }) => {
   }, [deviceId])
 
   return (
-    <div>
-      <ul>
-        {statusLogs.map(statusLog => (
-          <li key={`location_${statusLog.id}`}>
-            [{statusLog.reported_at}] Status: {statusLog.status}
-          </li>
-        ))}
-      </ul>
+    <div className="overflow-x-auto py-2">
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-700">Hora</th>
+            <th className="py-2 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-700">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {statusLogs.map(statusLog => (
+            <tr key={`status_${statusLog.id}`}>
+              <td className="py-2 px-4 border-b border-gray-200">{new Date(statusLog.reported_at).toLocaleString()}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{statusLog.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }
