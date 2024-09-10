@@ -12,7 +12,8 @@ const DevicesList = ({ locationId }) => {
         const data = await response.json()
         
         if (Array.isArray(data)) {
-          setDevices(data)
+          const sortedData = data.sort((a, b) => a.id - b.id)
+          setDevices(sortedData)
         } else {
           console.error('Expected an array but got:', data)
           setDevices([])
@@ -24,6 +25,9 @@ const DevicesList = ({ locationId }) => {
     }
 
     fetchDevices()
+    const intervalId = setInterval(fetchDevices, 5000)
+
+    return () => clearInterval(intervalId) // Limpiar el intervalo cuando el componente se desmonte
   }, [locationId])
 
   return (
