@@ -17,7 +17,9 @@ const StatusList = ({ deviceId }) => {
 
     fetchStatusLogs()
     const intervalId = setInterval(fetchStatusLogs, 5000)
-  }, [])
+
+    return () => clearInterval(intervalId) // Limpiar el intervalo cuando el componente se desmonte
+  }, [deviceId])
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import StatusList from './StatusList'
+import StatusListWrapper from './StatusListWrapper'
 
 const DevicesList = ({ locationId }) => {
   const [devices, setDevices] = useState([])
@@ -36,7 +36,7 @@ const DevicesList = ({ locationId }) => {
           </li>
         ))}
       </ul>
-      {selectedDeviceId && <StatusList deviceId={selectedDeviceId} />}
+      {selectedDeviceId && <StatusListWrapper deviceId={selectedDeviceId} />}
     </div>
   )
 }
