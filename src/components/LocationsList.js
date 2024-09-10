@@ -12,10 +12,11 @@ const LocationsList = () => {
         const data = await response.json()
 
         if (Array.isArray(data)) {
-          setLocations(data)
+          const sortedData = data.sort((a, b) => a.id - b.id)
+          setLocations(sortedData)
         } else {
           console.error('Expected an array but got:', data)
-          setLocations(data)
+          setLocations([])
         }
       } catch (error) {
         console.error('Error fetching locations:', error)
@@ -23,6 +24,9 @@ const LocationsList = () => {
     }
 
     fetchLocations()
+    const intervalId = setInterval(fetchLocations, 5000)
+
+    return () => clearInterval(intervalId) // Limpiar el intervalo cuando el componente se desmonte
   }, [])
 
   return (
@@ -38,7 +42,7 @@ const LocationsList = () => {
                 selectedLocationId === location.id ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-blue-100'
               }`}
             >
-              {location.name}
+              {location.name} - Status: {location.status}
             </li>
           ))}
         </ul>
